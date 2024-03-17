@@ -13,5 +13,12 @@ tclsh hello_world.tcl
 [Digital Clock](/ex01/)
 
 ```bash
-tclsh Digital_Clock.tcl
+tclsh digital_clock.tcl
+```
+
+## Analog Clock
+
+[Analog Clock](/ex02/)
+```bash
+tclsh analog_clock.tcl
 ```

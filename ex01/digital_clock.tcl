@@ -1,4 +1,3 @@
-# Degital
 # Degital Clock
 
 proc show_time {} {
