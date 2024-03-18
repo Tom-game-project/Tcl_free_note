@@ -3,7 +3,7 @@
 proc degree2position {a length resolution} {
     set pi [expr 2.0 * asin(1.0)]
     set step [expr 360 / $resolution]
-    set theta [expr $step * $a - 90]
+    set theta [expr $step * {$a} - 90]
     return [list [expr 150 + $length * cos(2 * $pi * $theta / 360)] [expr 150 + $length * sin(2 * $pi * $theta / 360)]]
 }
 
@@ -17,17 +17,17 @@ proc set_num {length} {
     }
 }
 
-
-proc show_time {} {
-    # show time
-    global buffer
+proc floop {} {
+    global seconds_id
+    global minutes_id
     set length 100
-    set buffer [clock format [clock seconds] -format "%H:%M:%S"]
-    set h [clock format [clock seconds] -format "%H"]
-    set m [clock format [clock seconds] -format "%M"]
-    set s [clock format [clock seconds] -format "%S"]
-    .c create line 150 150 150 150 -fill red -arrow last -width 2
-    after 1000 show_time
+    scan [clock format [clock seconds] -format "%I"] "%d" h
+    scan [clock format [clock seconds] -format "%M"] "%d" m
+    scan [clock format [clock seconds] -format "%S"] "%d" s
+    set args [list 150 150]
+    .c coords $seconds_id [concat $args [degree2position $s 100 60]]
+    .c coords $minutes_id [concat $args [degree2position $m 100 60]]
+    after 500 floop
 }
 
 wm title . clock
@@ -39,7 +39,16 @@ option add *font {FixedSys 16}
 canvas .c -width 300 -height 300 -bg #9e9e9e
 pack .c -in .
 
-.c create oval 10 10 290 290 -fill pink
+.c create oval [list 10 10 290 290] -fill pink
 set_num 120
 
-show_time
+
+scan [clock format [clock seconds] -format "%I"] "%d" h
+scan [clock format [clock seconds] -format "%M"] "%d" m
+scan [clock format [clock seconds] -format "%S"] "%d" s
+set args [list 150 150]
+set seconds_id [.c create line [concat $args [degree2position $s 100 60]] -fill red -arrow last -width 2]
+set minutes_id [.c create line [concat $args [degree2position $m 100 60]] -fill green -arrow last -width 5]
+#set hours_id   [.c create line [concat $args [degree2position $s 100 60]] -fill red -arrow last -width 5]
+
+floop
