@@ -13,12 +13,12 @@ tclsh hello_world.tcl
 [Digital Clock](/ex01/)
 
 ```bash
-tclsh digital_clock.tcl
+wish digital_clock.tcl
 ```
 
 ## Analog Clock
 
 [Analog Clock](/ex02/)
 ```bash
-tclsh analog_clock.tcl
+wish analog_clock.tcl
 ```
