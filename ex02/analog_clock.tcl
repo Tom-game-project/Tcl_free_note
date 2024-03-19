@@ -20,19 +20,26 @@ proc set_num {length} {
     }
 }
 
-proc floop {} {
+proc draw_hand {x y h_length m_length s_length} {
     global seconds_id
     global minutes_id
     global hours_id
-    set length 100
     scan [clock format [clock seconds] -format "%H"] "%d" h
     scan [clock format [clock seconds] -format "%M"] "%d" m
     scan [clock format [clock seconds] -format "%S"] "%d" s
-    set args [list 150 150]
-    .c coords $seconds_id [concat $args [degree2position $s 100 60.0]]
-    .c coords $minutes_id [concat $args [degree2position $m 100 60.0]]
-    .c coords $hours_id   [concat $args [degree2position [expr ($h % 12) * 60 + $m] 50 [expr 60.0 * 12.0]]]
+    set args [list $x $y]
+    .c coords $seconds_id [concat $args [degree2position $s $s_length 60.0]]
+    .c coords $minutes_id [concat $args [degree2position $m $m_length 60.0]]
+    .c coords $hours_id   [concat $args [degree2position [expr ($h % 12) * 60 + $m] $h_length [expr 60.0 * 12.0]]]
+}
+
+proc floop {} {
+    draw_hand 150 150 50 100 100
     after 500 floop
+}
+
+proc window_size_changed {} {
+    puts "window size changed"
 }
 
 wm title   . clock
@@ -42,7 +49,11 @@ wm minsize . 200 50
 option add *font {FixedSys 16}
 
 canvas .c -width 300 -height 300 -bg #9e9e9e
-pack   .c -in .
+pack   .c -in . -expand 1 -fill both
+
+
+# bind setting
+bind .c <Configure> window_size_changed
 
 .c create oval [list 10 10 290 290] -fill pink
 set_num 120
@@ -55,5 +66,6 @@ set seconds_id [.c create line [concat $args [degree2position $s 100 60]] -fill 
 set minutes_id [.c create line [concat $args [degree2position $m 100 60]] -fill black -arrow last -width 5]
 set hours_id   [.c create line [concat $args [degree2position $s 100 60]] -fill black -arrow last -width 5]
 
+# start loop
 floop
 
