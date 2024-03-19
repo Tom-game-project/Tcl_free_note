@@ -35,7 +35,7 @@ proc floop {} {
     after 500 floop
 }
 
-wm title . clock
+wm title   . clock
 wm minsize . 200 50
 
 # setting font
@@ -56,3 +56,4 @@ set minutes_id [.c create line [concat $args [degree2position $m 100 60]] -fill 
 set hours_id   [.c create line [concat $args [degree2position $s 100 60]] -fill black -arrow last -width 5]
 
 floop
+
