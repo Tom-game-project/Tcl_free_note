@@ -1,6 +1,6 @@
 # Tcl free note
 
-## hello_world
+## Hello World
 
 [hello_world](/ex00/)
 
