@@ -26,20 +26,30 @@ proc set_num {length} {
     for {set index 1} {$index <= 12} {incr index} {
         set theta [expr 30 * $index - 90]
         lappend nums_id_list [.c create text \
-        [degree2position $index 120 12]\
+        [degree2position $index $length 12]\
         -anchor c -font Purisa -text $index ]
     }
     return $nums_id_list
 }
 
+# return unique object id
+proc set_oval {center_position r} {
+   return [.c create oval [list [expr $center_position - $r] [expr $center_position - $r] [expr $center_position + $r] [expr $center_position + $r]] -fill pink]
+}
+
+proc draw_oval {center_position r} {
+    global oval_id
+    .c coords $oval_id [list [expr $center_position - $r] [expr $center_position - $r] [expr $center_position + $r] [expr $center_position + $r]]
+}
+
 
 # 
-proc draw_num {} {
+proc draw_num {length} {
     global nums_id_list
     set pi [expr 2.0 * asin(1.0)]
     set index 1
     foreach num_id $nums_id_list {
-        .c coords $num_id [degree2position $index 120 12]
+        .c coords $num_id [degree2position $index $length 12]
         incr index
     }
 }
@@ -77,7 +87,14 @@ proc window_size_changed {} {
     } else {
         set width $w
     }
-    draw_num 
+    draw_num [expr 0.4 * $width]
+    draw_oval [expr $width / 2.0] [expr $width * 0.5]
+    draw_hand \
+        [expr $width / 2.0]\
+        [expr $width / 2.0]\
+        [expr $width / 6.0]\
+        [expr $width / 3.0]\
+        [expr $width / 3.0]
 }
 
 wm title   . clock
@@ -90,12 +107,14 @@ canvas .c -width 300 -height 300 -bg #9e9e9e
 pack   .c -in . -expand 1 -fill both
 
 # bind setting
+# on changed window size
 bind .c <Configure> window_size_changed
 
 set width 300
 
 
-.c create oval [list 10 10 290 290] -fill pink
+# .c create oval [list 10 10 290 290] -fill pink
+set oval_id [set_oval 150 [expr $width * 0.5]]
 # 1 - 12番までに割り当てられたidが格納される
 set nums_id_list [set_num 120]
 puts $nums_id_list 
