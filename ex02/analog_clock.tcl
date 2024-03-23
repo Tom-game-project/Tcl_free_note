@@ -117,8 +117,6 @@ set width 300
 set oval_id [set_oval 150 [expr $width * 0.5]]
 # 1 - 12番までに割り当てられたidが格納される
 set nums_id_list [set_num 120]
-puts $nums_id_list 
-
 
 scan [clock format [clock seconds] -format "%I"] "%d" h
 scan [clock format [clock seconds] -format "%M"] "%d" m
