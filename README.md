@@ -23,9 +23,9 @@ wish digital_clock.tcl
 wish analog_clock.tcl
 ```
 
-## Sqlite3
+## Sqlite3 Example0
 
-[SQlite3]
+[SQlite3](/ex03/)
 
 You need to install some Sqlite3 tools
 
@@ -38,3 +38,4 @@ run
 ```bash
 tclsh main.tcl
 ```
+
