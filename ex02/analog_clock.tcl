@@ -97,8 +97,25 @@ proc window_size_changed {} {
         [expr $width / 3.0]
 }
 
+# setting color
+proc chooseColor {} {
+    set r [tk_chooseColor -initialcolor gray -title "choose color"]
+}
+
 wm title   . clock
 wm minsize . 200 50
+
+menu .m -type menubar
+
+
+.m add cascade -label "Setting" -underline 0 -menu .m.setting
+menu .m.setting -tearoff no
+.m.setting add command -label "bg color" -command chooseColor
+.m.setting add command -label "font"
+.m.setting add command -label "hands design"
+#button .b -bg [tk_choosecolor -initialcolor gray -title "choose color"]
+. configure -menu .m
+
 
 # setting font
 option add *font {FixedSys 16}
